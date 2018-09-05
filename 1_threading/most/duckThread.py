@@ -1,6 +1,11 @@
 import threading
 import time
 
+
+
+times = 1
+lock = threading.Lock()
+
 class Duck(threading.Thread):
     walking = 'Walks like a duck.'
     def __init__(self, quack , num):
@@ -9,8 +14,12 @@ class Duck(threading.Thread):
         self.num = num
         print(f'Time to quack = {self.quack}')
     def run(self):
-        for i in range(self.quack):
-            print(f'Duck Number : {self.num} Quaaaack Quaaaack!!')
+        global times
+        for i in range(times):
+            print(f'Duck : {self.num} Quaaaack Quaaaack!!')
+        lock.acquire()
+        times += 1
+        lock.release()
 
 
 
