@@ -40,3 +40,5 @@ for file_data in output_names:
 compress_queue.join()
 
 print("Execution time = {0:.5f}".format(time.time() - start))
+
+if __name__='main': main()
