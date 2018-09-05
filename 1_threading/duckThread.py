@@ -1,15 +1,21 @@
 import threading
 
+times = 1
+lock = threading.Lock()
+
 class Duck(threading.Thread):
-    times = 1
-    def __init__(self, name, n):
+    def __init__(self, name):
          threading.Thread.__init__(self)
          self.name = name
-         self.times = n
 
     def run(self):
-        for i in range(self.times):
-            print(f'{self.name}: quack quack')
+        global times
+        for i in range(times):
+            lock.acquire()
+          #  print(f'{self.name}: quack quack')
+            print('{}: quack quack'.format(self.name))
+            times+=1
+            lock.release()
 
 def main():
     numDucks = 4
@@ -17,10 +23,12 @@ def main():
     ducks = []
 
     for i in range(numDucks):
-        duck1 = Duck(f'Duck {i}', numQuacks)
+        duck1 = Duck('Duck {}'.format(i))
         ducks.append(duck1)
 
-    print(f'we have {len(ducks)} ducks')
+    #print(f'we have {len(ducks)} ducks')
+    print('we have {}'.format(len(ducks)))
+
     
     for i in range(len(ducks)):
         ducks[i].start()
