@@ -23,20 +23,25 @@ def process_queue():
         copy_op(file_data)
         compress_queue.task_done()
 
-compress_queue = Queue()
+def main():
 
-output_names = [{'clip1.mp4' : 'clip11.mp4'},{'clip2.mp4' : 'clip22.mp4'}]
+    compress_queue = Queue()
 
-for i in range(2):
-    t = threading.Thread(target=process_queue)
-    t.daemon = True
-    t.start()
+    output_names = [{'clip1.mp4' : 'clip11.mp4'},{'clip2.mp4' : 'clip22.mp4'}]
 
-start = time.time()
+    for i in range(2):
+        t = threading.Thread(target=process_queue)
+        t.daemon = True
+        t.start()
 
-for file_data in output_names:
-    compress_queue.put(file_data)
+    start = time.time()
 
-compress_queue.join()
+    for file_data in output_names:
+        compress_queue.put(file_data)
 
-print("Execution time = {0:.5f}".format(time.time() - start))
+    compress_queue.join()
+
+    print("Execution time = {0:.5f}".format(time.time() - start))
+
+if __name__ == '__main__':
+    main()
