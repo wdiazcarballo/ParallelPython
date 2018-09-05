@@ -1,23 +1,15 @@
 import threading
 
-
-times = 1
-lock = threading.Lock()
-
 class Duck(threading.Thread):
-  
+    times = 1
     def __init__(self, name, n):
          threading.Thread.__init__(self)
          self.name = name
-        #  self.times = n
+         self.times = n
 
     def run(self):
-        global times
-        for i in range(times):
+        for i in range(self.times):
             print(f'{self.name}: quack quack')
-        lock.acquire()
-        times += 1
-        lock.release()
 
 def main():
     numDucks = 4
