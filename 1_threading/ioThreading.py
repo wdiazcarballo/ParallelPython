@@ -1,5 +1,5 @@
 import threading
-from queue import Queue
+from multiprocessing import Queue
 import time
 import shutil
 
