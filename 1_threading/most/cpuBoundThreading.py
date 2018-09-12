@@ -49,7 +49,7 @@ class Cpu(threading.Thread):
 def main():
 
     min_nums = Queue()
-    rand_list = [500000,1000000]
+    rand_list = [1000000,2000000,3000000]
 
 
     for i in range(2):
