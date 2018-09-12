@@ -6,30 +6,28 @@ from queue import Queue
 import time
 
 list_lock = threading.Lock()
-min_nums = Queue()
-rand_list = [1000000,2000000,3000000]
-sum_primes_list = list()
 
 class Cpu(threading.Thread):
 
-    def __init__(self,NumberThread):
+    def __init__(self,min_nums,sum_primes_list):
         threading.Thread.__init__(self)
-        self.NumberThread = NumberThread
+        self.min_nums = min_nums
+        self.sum_primes_list = sum_primes_list
         
     def run(self):
-        global min_nums
+       
         while True:
             
-            rand_num = min_nums.get()
+            rand_num = self.min_nums.get()
             self.find_rand(rand_num)
-            min_nums.task_done()
+            self.min_nums.task_done()
     
 
     
 
 
     def find_rand(self,num):
-        global sum_primes_list
+        
         sum_of_primes = 0
 
         ix = 2
@@ -40,6 +38,8 @@ class Cpu(threading.Thread):
             ix += 1
 
         sum_primes_list.append(sum_of_primes)
+
+
     def is_prime(self,num):
         if num <= 1:
             return False
@@ -59,8 +59,13 @@ class Cpu(threading.Thread):
 
 def main():
 
+    min_nums = Queue()
+    rand_list = [1000000,2000000,3000000]
+    global sum_primes_list 
+    sum_primes_list = list()
+    
     for i in range(2):
-        t = Cpu(i)
+        t = Cpu(min_nums,sum_primes_list)
         t.daemon = True
         t.start()
 
